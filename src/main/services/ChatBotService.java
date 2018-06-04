@@ -32,12 +32,16 @@ public class ChatBotService {
      */
     @RequestMapping("/onlineFriends")
     public List<FriendInfo> getOnlineFriends(@RequestParam(value="chatterId", defaultValue="") String chatterId) {
-        for (int i=0; i<this.friendsList.size(); i++) {
-            this.friendsList.get(i).setOnline(false);
-        }
         int randomSeed = (int) (Math.random()*10);
         int onlineFriendIndex = randomSeed%this.friendsList.size();
-        this.friendsList.get(onlineFriendIndex).setOnline(true);
+	for (int i=0; i<this.friendsList.size(); i++) {
+	    if (i <= onlineFriendIndex) {
+                this.friendsList.get(i).setOnline(true);
+	    }
+	    else {
+		this.friendsList.get(i).setOnline(false);
+	    }
+	}
 
         return this.friendsList;
     }
