@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 @RestController
 public class ChatBotService {
@@ -34,14 +35,18 @@ public class ChatBotService {
     public List<FriendInfo> getOnlineFriends(@RequestParam(value="chatterId", defaultValue="") String chatterId) {
         int randomSeed = (int) (Math.random()*10);
         int onlineFriendIndex = randomSeed%this.friendsList.size();
-	for (int i=0; i<this.friendsList.size(); i++) {
-	    if (i <= onlineFriendIndex) {
-                this.friendsList.get(i).setOnline(true);
-	    }
-	    else {
-		this.friendsList.get(i).setOnline(false);
-	    }
-	}
+        this.friendsList.forEach(new Consumer<FriendInfo>() {
+
+            @Override
+            public void accept(FriendInfo friendInfo) {
+                int pos = ChatBotService.this.friendsList.indexOf(friendInfo);
+                if (pos == onlineFriendIndex) {
+                    friendInfo.setOnline(true);
+                } else {
+                    friendInfo.setOnline(false);
+                }
+            }
+        });
 
         return this.friendsList;
     }
