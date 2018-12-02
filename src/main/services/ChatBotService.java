@@ -1,6 +1,7 @@
 package main.services;
 
 import main.model.FriendInfo;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 import java.util.function.Consumer;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class ChatBotService {
     /**
